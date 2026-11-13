@@ -7,7 +7,7 @@ name = "Webhooks Lab"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products,write_metaobjects,write_metaobject_definitions"
+scopes = "read_orders,write_products,write_metaobjects,write_metaobject_definitions"
 
 [product.metafields.app.demo_info]
 type = "single_line_text_field"
@@ -48,6 +48,16 @@ api_version = "2027-01"
   [[webhooks.subscriptions]]
   uri = "/webhooks/products/update"
   topics = [ "products/update" ]
+
+  # Needs read_orders and protected customer data access (Partner Dashboard).
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/orders/create"
+  topics = [ "orders/create" ]
+
+  # Mandatory privacy webhooks.
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/compliance"
+  compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
 
 [auth]
 redirect_urls = [ "https://example.com/api/auth" ]

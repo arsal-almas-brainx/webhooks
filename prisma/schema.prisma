@@ -32,3 +32,13 @@ model Session {
   refreshToken        String?
   refreshTokenExpires DateTime?
 }
+
+// One row per webhook event we've accepted. Shopify can deliver the same
+// event more than once; the primary key on eventId makes the second insert
+// fail, which is how duplicates get skipped.
+model WebhookEvent {
+  eventId    String   @id
+  topic      String
+  shop       String
+  receivedAt DateTime @default(now())
+}

@@ -29,3 +29,23 @@ deploying webhooks to it could replace its live extensions and Functions.
 
 Learning material so far: the 10-lesson explainer in chat and the animated
 video at https://claude.ai/artifact/6maZehB8U6MW6vpVympEBK
+
+## Progress (2026-11-13)
+
+All six steps are done and tested.
+
+- App: "Webhooks Lab", ShopX Commerce org (Dev Dashboard 128967601,
+  Partner Dashboard 563871), installed on arsals-plus-store.
+- Running locally: Cloudflare's quick tunnel times out on this network, so
+  use ngrok. Start `ngrok http 3000`, then
+  `shopify app dev --store arsals-plus-store.myshopify.com --tunnel-url <ngrok-url>:3000`.
+  The ngrok free tier shows a warning page in the admin iframe the first
+  time; click "Visit Site". Webhooks aren't affected.
+- Protected customer data: Level 1, reason "App functionality", set in the
+  Partner Dashboard (Webhooks Lab > API access requests). Dev stores don't
+  need review.
+- Duplicates and speed: `app/webhooks.server.js` stores each Event-Id in the
+  `WebhookEvent` table, replies 200, then does the work.
+- Privacy webhooks: `/webhooks/compliance` handles all three topics.
+- After a Prisma migration, restart `shopify app dev`; the running server
+  keeps the old Prisma client.
